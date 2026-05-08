@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <defs>
+    <linearGradient id="iconGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffffff;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#f0fdf4;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <!-- Minimalist Shopping Basket Icon -->
+  <path d="M50 75 L150 75 L140 145 L60 145 Z" fill="none" stroke="url(#iconGrad)" stroke-width="14" stroke-linejoin="round"/>
+  <path d="M75 75 C75 40 125 40 125 75" fill="none" stroke="url(#iconGrad)" stroke-width="12" stroke-linecap="round"/>
+  <circle cx="80" cy="175" r="12" fill="url(#iconGrad)"/>
+  <circle cx="120" cy="175" r="12" fill="url(#iconGrad)"/>
+  <path d="M100 95 L100 125 M85 110 L115 110" stroke="url(#iconGrad)" stroke-width="10" stroke-linecap="round"/>
+</svg>
