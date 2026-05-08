@@ -36,7 +36,7 @@ export function Categories() {
               whileHover={{ y: -6 }}
               className="group relative rounded-3xl p-6 bg-card border border-border overflow-hidden cursor-pointer shadow-sm hover:shadow-elevated transition-all"
             >
-              <div className={`absolute inset-0 bg-gradient-to-br ${c.from} ${c.to} opacity-0 group-hover:opacity-100 transition-opacity`} />
+              <div className={`absolute inset-0 bg-linear-to-br ${c.from} ${c.to} opacity-0 group-hover:opacity-100 transition-opacity`} />
               <div className="relative">
                 <div className="w-14 h-14 rounded-2xl bg-gradient-brand text-primary-foreground grid place-items-center mb-4 group-hover:rotate-6 group-hover:scale-110 transition-transform shadow-glow">
                   <c.icon className="w-7 h-7" />

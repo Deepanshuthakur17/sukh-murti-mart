@@ -74,7 +74,7 @@ export function Contact() {
             transition={{ duration: 0.5 }}
             className="lg:col-span-3 rounded-3xl bg-card border border-border p-6 md:p-8 shadow-soft"
           >
-            <div className="aspect-[16/9] rounded-2xl overflow-hidden mb-6 border border-border">
+            <div className="aspect-video rounded-2xl overflow-hidden mb-6 border border-border">
               <iframe
                 title="Sukh Murti Mart location"
                 src="https://www.google.com/maps?q=Ashiyana+Colony+Moradabad+Uttar+Pradesh+244105&output=embed"

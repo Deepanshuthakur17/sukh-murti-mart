@@ -59,9 +59,9 @@ export function Gallery() {
             onClick={() => setOpen(null)}
             className="fixed inset-0 z-100 grid place-items-center bg-black/85 backdrop-blur p-6"
           >
-            <button 
-              onClick={() => setOpen(null)} 
-              className="absolute top-6 right-6 grid place-items-center w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 text-white backdrop-blur-md border border-white/20 transition-all duration-300 hover:rotate-90 z-[110]"
+            <button
+              onClick={() => setOpen(null)}
+              className="absolute top-6 right-6 grid place-items-center w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 text-white backdrop-blur-md border border-white/20 transition-all duration-300 hover:rotate-90 z-110"
             >
               <X className="w-6 h-6" />
             </button>
