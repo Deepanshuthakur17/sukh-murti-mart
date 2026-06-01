@@ -12,6 +12,11 @@ dist
 dist-ssr
 .output
 .vinxi
+.next
+out
+build
+.vercel
+next-env.d.ts
 .tanstack/**
 .nitro
 *.local
