@@ -8,9 +8,7 @@ export function Footer() {
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-10 pb-12 border-b border-border/50">
           <div>
             <div className="flex items-center gap-3 mb-4">
-              <div className="grid place-items-center w-12 h-12 rounded-xl bg-gradient-brand shadow-glow">
-                <img src="/logo.svg" alt="Logo" className="w-7 h-7" />
-              </div>
+              <img src="/logo-sm-mart.png" alt="Logo" className="w-auto h-16 object-contain" />
               <div>
                 <div className="font-bold">SUKH MURTI MART</div>
                 <div className="text-xs opacity-70">PVT. LTD.</div>
@@ -46,7 +44,7 @@ export function Footer() {
           <div>
             <div className="font-semibold mb-4">Reach Us</div>
             <div className="text-sm text-muted-foreground space-y-3">
-              <div className="flex gap-2"><MapPin className="w-4 h-4 text-accent shrink-0 mt-0.5" /> HIG A2-16, near RRK School, Ashiyana Colony, Moradabad, UP 244105</div>
+              <div className="flex gap-2"><MapPin className="w-4 h-4 text-accent shrink-0 mt-0.5" /> SUKH MURTI MART PVT LTD, HIG A2-16, near RRK SCHOOL, Ashiyana Colony, Moradabad, Uttar Pradesh 244105</div>
               <div className="flex gap-2"><Phone className="w-4 h-4 text-accent" /> +91 98XXX XXXXX</div>
             </div>
           </div>

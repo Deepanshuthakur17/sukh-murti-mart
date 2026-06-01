@@ -36,12 +36,12 @@ export function Contact() {
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
+            viewport={{ once: false }}
             transition={{ duration: 0.5 }}
             className="lg:col-span-2 space-y-4"
           >
             {[
-              { icon: MapPin, t: "Our Store", d: "HIG A2-16, near RRK School, Ashiyana Colony, Moradabad, UP 244105" },
+              { icon: MapPin, t: "Our Store", d: "SUKH MURTI MART PVT LTD, HIG A2-16, near RRK SCHOOL, Ashiyana Colony, Moradabad, Uttar Pradesh 244105" },
               { icon: Phone, t: "Call Us", d: "+91 98XXX XXXXX" },
               { icon: Mail, t: "Email", d: "info@sukhmurtimart.com" },
               { icon: Clock, t: "Open Hours", d: "Mon – Sun · 8:00 AM – 10:00 PM" },
@@ -70,14 +70,14 @@ export function Contact() {
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+            viewport={{ once: false }}
             transition={{ duration: 0.5 }}
             className="lg:col-span-3 rounded-3xl bg-card border border-border p-6 md:p-8 shadow-soft"
           >
             <div className="aspect-video rounded-2xl overflow-hidden mb-6 border border-border">
               <iframe
                 title="Sukh Murti Mart location"
-                src="https://www.google.com/maps?q=Ashiyana+Colony+Moradabad+Uttar+Pradesh+244105&output=embed"
+                src="https://www.google.com/maps?q=SUKH+MURTI+MART+PVT+LTD,+HIG+A2-16,+near+RRK+SCHOOL,+Ashiyana+Colony,+Moradabad,+Uttar+Pradesh+244105&output=embed"
                 className="w-full h-full"
                 loading="lazy"
               />

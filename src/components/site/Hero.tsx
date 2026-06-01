@@ -1,20 +1,107 @@
+import { useEffect, useRef } from "react";
+import { NeatGradient } from "@firecms/neat";
 import { motion } from "framer-motion";
 import { Star, Phone, MapPin, Sparkles, Leaf, Truck, Clock } from "lucide-react";
-import hero from "@/assets/hero-store.jpg";
 import { MagneticButton } from "./MagneticButton";
 
 export function Hero() {
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+
+  useEffect(() => {
+    if (!canvasRef.current) return;
+
+    const config = {
+        colors: [
+            { color: '#0F7A45', enabled: true },
+            { color: '#14a35c', enabled: true },
+            { color: '#FF9F1A', enabled: true },
+            { color: '#ffb84d', enabled: true },
+            { color: '#f5e1e5', enabled: false },
+        ],
+        speed: 6,
+        horizontalPressure: 7,
+        verticalPressure: 8,
+        waveFrequencyX: 1,
+        waveFrequencyY: 2,
+        waveAmplitude: 8,
+        shadows: 4,
+        highlights: 6,
+        colorBrightness: 0.95,
+        colorSaturation: -8,
+        wireframe: false,
+        colorBlending: 10,
+        backgroundColor: '#0F7A45',
+        backgroundAlpha: 1,
+        grainScale: 4,
+        grainSparsity: 0,
+        grainIntensity: 0.25,
+        grainSpeed: 1,
+        resolution: 1,
+        yOffset: 0,
+        yOffsetWaveMultiplier: 6.2,
+        yOffsetColorMultiplier: 5.8,
+        yOffsetFlowMultiplier: 6.5,
+        flowDistortionA: 1.1,
+        flowDistortionB: 0.8,
+        flowScale: 1.6,
+        flowEase: 0.32,
+        flowEnabled: true,
+        enableProceduralTexture: false,
+        textureVoidLikelihood: 0.27,
+        textureVoidWidthMin: 60,
+        textureVoidWidthMax: 420,
+        textureBandDensity: 1.2,
+        textureColorBlending: 0.06,
+        textureSeed: 333,
+        textureEase: 0.22,
+        proceduralBackgroundColor: '#0E0707',
+        textureShapeTriangles: 20,
+        textureShapeCircles: 15,
+        textureShapeBars: 15,
+        textureShapeSquiggles: 10,
+        domainWarpEnabled: false,
+        domainWarpIntensity: 0,
+        domainWarpScale: 3,
+        vignetteIntensity: 0,
+        vignetteRadius: 0.8,
+        fresnelEnabled: false,
+        fresnelPower: 2,
+        fresnelIntensity: 0.5,
+        fresnelColor: '#FFFFFF',
+        iridescenceEnabled: false,
+        iridescenceIntensity: 0.5,
+        iridescenceSpeed: 1,
+        bloomIntensity: 0,
+        bloomThreshold: 0.7,
+        chromaticAberration: 0,
+    };
+
+    const gradient = new NeatGradient({
+        ref: canvasRef.current,
+        ...config
+    });
+
+    const handleScroll = () => {
+        gradient.yOffset = window.scrollY;
+    };
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+        window.removeEventListener("scroll", handleScroll);
+        gradient.destroy();
+    };
+  }, []);
+
   return (
-    <section id="home" className="relative min-h-svh overflow-hidden pt-28 pb-16 noise transition-colors duration-500">
-      <div className="absolute inset-0 -z-10">
-        <img 
-          src={hero} 
-          alt="Sukh Murti Mart store" 
-          width={1600} height={1100} 
-          className="w-full h-full object-cover opacity-80 dark:opacity-40" 
+    <section id="home" className="relative min-h-svh overflow-hidden pt-28 pb-16 noise transition-colors duration-500 isolate">
+      <div className="absolute inset-0 -z-10 overflow-hidden">
+        <canvas 
+          ref={canvasRef} 
+          style={{ width: "100%", height: "100%" }} 
+          className="absolute inset-0 opacity-100" 
         />
-        <div className="absolute inset-0 bg-linear-to-b from-background/40 via-background/80 to-background dark:from-background/20 dark:via-background/60 dark:to-background" />
-        <div className="absolute inset-0 bg-mesh opacity-60" />
+        <div className="absolute inset-0 bg-linear-to-b from-background/30 via-background/60 to-background dark:from-background/20 dark:via-background/50 dark:to-background pointer-events-none" />
+        <div className="absolute inset-0 bg-mesh opacity-40 pointer-events-none" />
         
         {/* Subtle Ambient Glows */}
         <div className="orb animate-orb" style={{ width: 500, height: 500, left: "-10%", top: "10%", background: "radial-gradient(circle, oklch(0.65 0.16 152 / 0.25), transparent 70%)" }} />

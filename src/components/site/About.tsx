@@ -1,8 +1,8 @@
 import { motion } from "framer-motion";
 import { Counter } from "./Counter";
 import { Award, HeartHandshake, ShieldCheck, Users } from "lucide-react";
-import g3 from "@/assets/gallery-3.jpg";
-import g6 from "@/assets/gallery-6.jpg";
+import g3 from "@/assets/gallery-3.png";
+import g6 from "@/assets/gallery-6.png";
 
 const stats = [
   { value: 10, suffix: "K+", label: "Happy Customers" },
@@ -26,15 +26,15 @@ export function About() {
           <motion.div
             initial={{ opacity: 0, x: -40 }}
             whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
+            viewport={{ once: false }}
             transition={{ duration: 0.6 }}
             className="relative h-[480px]"
           >
             <div className="absolute top-0 left-0 w-3/4 h-3/4 rounded-3xl overflow-hidden shadow-elevated">
-              <img src={g3} alt="Friendly billing counter" loading="lazy" width={1024} height={1024} className="w-full h-full object-cover" />
+              <img src={g3.src} alt="Friendly billing counter" loading="lazy" width={1024} height={1024} className="w-full h-full object-cover" />
             </div>
             <div className="absolute bottom-0 right-0 w-2/3 h-2/3 rounded-3xl overflow-hidden shadow-elevated border-4 border-background">
-              <img src={g6} alt="Fresh produce" loading="lazy" width={1024} height={1024} className="w-full h-full object-cover" />
+              <img src={g6.src} alt="Fresh produce" loading="lazy" width={1024} height={1024} className="w-full h-full object-cover" />
             </div>
             <div className="absolute -bottom-6 left-6 glass-light dark:glass rounded-2xl px-5 py-4 shadow-soft border border-primary/10">
               <div className="text-2xl font-bold text-primary">100%</div>
@@ -45,7 +45,7 @@ export function About() {
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+            viewport={{ once: false }}
             transition={{ duration: 0.6 }}
           >
             <div className="inline-flex items-center gap-2 bg-primary-soft text-primary px-4 py-2 rounded-full text-xs font-semibold mb-5">
@@ -82,7 +82,7 @@ export function About() {
               key={s.label}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
+              viewport={{ once: false }}
               transition={{ duration: 0.4, delay: i * 0.08 }}
               className="rounded-3xl bg-gradient-brand text-primary-foreground p-6 text-center shadow-glow"
             >

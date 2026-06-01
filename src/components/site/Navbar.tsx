@@ -39,9 +39,11 @@ export function Navbar() {
           }`}
         >
           <a href="#home" className="flex items-center gap-2.5 group">
-            <div className={`grid place-items-center rounded-xl bg-gradient-brand shadow-glow group-hover:scale-105 transition-all duration-300 ${scrolled ? "w-10 h-10" : "w-12 h-12"}`}>
-              <img src="/logo.svg" alt="Logo" className="w-7 h-7" />
-            </div>
+            <img 
+              src="/logo-sm-mart.png" 
+              alt="Logo" 
+              className={`w-auto object-contain transition-all duration-300 group-hover:scale-105 ${scrolled ? "h-12" : "h-16"}`} 
+            />
             <div className="leading-tight">
               <div className="text-sm md:text-base font-bold text-foreground">SUKH MURTI MART</div>
               <div className="text-[10px] md:text-xs text-muted-foreground -mt-0.5 flex items-center gap-1.5">
