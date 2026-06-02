@@ -217,3 +217,9 @@
   .focus-glow:focus { outline: none; box-shadow: 0 0 0 3px oklch(0.52 0.13 152 / 0.18), 0 0 24px -4px oklch(0.52 0.13 152 / 0.4); border-color: var(--color-primary); }
   .safe-bottom { padding-bottom: max(1.5rem, env(safe-area-inset-bottom)); }
 }
+
+/* Hide Neat Gradient watermark */
+a[href*="neat.firecms.co"] {
+  display: none !important;
+}
+

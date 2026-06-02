@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { NeatGradient } from "@firecms/neat";
+import { NeatGradient } from "./neat/NeatGradient";
 import { motion } from "framer-motion";
 import { Star, Phone, MapPin, Sparkles, Leaf, Truck, Clock } from "lucide-react";
 import { MagneticButton } from "./MagneticButton";

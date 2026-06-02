@@ -11,6 +11,7 @@ import { Contact } from "@/components/site/Contact";
 import { Footer } from "@/components/site/Footer";
 import { FloatingWhatsApp } from "@/components/site/FloatingWhatsApp";
 import { TrustBanner } from "@/components/site/TrustBanner";
+import { Splash } from "@/components/site/Splash";
 
 // Dynamically load the Hero component on client-side only 
 // because it initialises a canvas-based WebGL context using @firecms/neat
@@ -22,6 +23,7 @@ const Hero = dynamic(
 export default function Home() {
   return (
     <div className="min-h-screen bg-background overflow-x-clip">
+      <Splash />
       <Navbar />
       <main>
         <Hero />
@@ -38,3 +40,4 @@ export default function Home() {
     </div>
   );
 }
+

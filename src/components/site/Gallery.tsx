@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, ChevronLeft, ChevronRight, Grid, LayoutGrid, Layers, ChevronDown } from "lucide-react";
+import { X, ChevronLeft, ChevronRight, Grid, LayoutGrid, Layers, ChevronDown, Play, Pause } from "lucide-react";
 
 const categories = [
   { id: "all", label: "All Photos", icon: Layers },
@@ -56,6 +56,11 @@ export function Gallery() {
   const [visibleCount, setVisibleCount] = useState(8);
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const [direction, setDirection] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(true);
+
+  // Touch Swipe State
+  const [touchStart, setTouchStart] = useState<number | null>(null);
+  const [touchEnd, setTouchEnd] = useState<number | null>(null);
 
   // Filter items based on active category
   const filteredItems = activeCategory === "all"
@@ -65,18 +70,61 @@ export function Gallery() {
   const visibleItems = filteredItems.slice(0, visibleCount);
   const hasMore = filteredItems.length > visibleCount;
 
-  const handleNext = (e?: React.MouseEvent) => {
-    e?.stopPropagation();
-    if (activeIndex === null) return;
+  const handleNext = () => {
     setDirection(1);
-    setActiveIndex((activeIndex + 1) % filteredItems.length);
+    setActiveIndex((prev) => (prev !== null ? (prev + 1) % filteredItems.length : null));
   };
 
-  const handlePrev = (e?: React.MouseEvent) => {
-    e?.stopPropagation();
-    if (activeIndex === null) return;
+  const handlePrev = () => {
     setDirection(-1);
-    setActiveIndex((activeIndex - 1 + filteredItems.length) % filteredItems.length);
+    setActiveIndex((prev) => (prev !== null ? (prev - 1 + filteredItems.length) % filteredItems.length : null));
+  };
+
+  // Keyboard controls
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (activeIndex === null) return;
+      if (e.key === "ArrowRight") {
+        handleNext();
+      } else if (e.key === "ArrowLeft") {
+        handlePrev();
+      } else if (e.key === "Escape") {
+        setActiveIndex(null);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [activeIndex, filteredItems.length]);
+
+  // Autoplay slideshow
+  useEffect(() => {
+    if (activeIndex === null || !isPlaying) return;
+    const interval = setInterval(() => {
+      handleNext();
+    }, 3500);
+    return () => clearInterval(interval);
+  }, [activeIndex, isPlaying, filteredItems.length]);
+
+  // Touch swipe handlers
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchStart(e.targetTouches[0].clientX);
+    setTouchEnd(null);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > 50;
+    const isRightSwipe = distance < -50;
+    if (isLeftSwipe) {
+      handleNext();
+    } else if (isRightSwipe) {
+      handlePrev();
+    }
   };
 
   const loadMore = () => {
@@ -139,8 +187,8 @@ export function Gallery() {
                 key={cat.id}
                 onClick={() => handleCategoryChange(cat.id)}
                 className={`relative flex items-center gap-2 px-4 py-2.5 rounded-full text-xs md:text-sm font-semibold transition-all duration-300 border cursor-pointer ${isActive
-                    ? "bg-primary text-primary-foreground border-primary shadow-glow"
-                    : "glass-light dark:glass hover:bg-muted/80 text-foreground/80 hover:text-foreground border-border/50"
+                  ? "bg-primary text-primary-foreground border-primary shadow-glow"
+                  : "glass-light dark:glass hover:bg-muted/80 text-foreground/80 hover:text-foreground border-border/50"
                   }`}
               >
                 <span>{cat.label}</span>
@@ -169,6 +217,7 @@ export function Gallery() {
                   onClick={() => {
                     setDirection(0);
                     setActiveIndex(originalIndex);
+                    setIsPlaying(true); // Auto-play when opened
                   }}
                   className="group relative overflow-hidden rounded-3xl h-[160px] md:h-[220px] shadow-soft hover:shadow-elevated cursor-pointer"
                 >
@@ -212,26 +261,51 @@ export function Gallery() {
             onClick={() => setActiveIndex(null)}
             className="fixed inset-0 z-50 grid place-items-center bg-black/90 backdrop-blur-md p-4 md:p-8"
           >
-            {/* Close Button */}
-            <button
-              onClick={() => setActiveIndex(null)}
-              className="absolute top-6 right-6 grid place-items-center w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 text-white backdrop-blur-md border border-white/20 transition-all duration-300 hover:rotate-90 z-110 cursor-pointer"
-            >
-              <X className="w-6 h-6" />
-            </button>
+            {/* Top Toolbar */}
+            <div className="absolute top-6 right-6 flex items-center gap-3 z-110">
+              {/* Play/Pause Button */}
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setIsPlaying(!isPlaying);
+                }}
+                className="grid place-items-center w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 text-white backdrop-blur-md border border-white/20 transition-all duration-300 cursor-pointer"
+                title={isPlaying ? "Pause Autoplay" : "Play Autoplay"}
+              >
+                {isPlaying ? <Pause className="w-5 h-5" /> : <Play className="w-5 h-5 fill-current" />}
+              </button>
+
+              {/* Close Button */}
+              <button
+                onClick={() => setActiveIndex(null)}
+                className="grid place-items-center w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 text-white backdrop-blur-md border border-white/20 transition-all duration-300 hover:rotate-90 cursor-pointer"
+                title="Close"
+              >
+                <X className="w-6 h-6" />
+              </button>
+            </div>
 
             {/* Slider Wrapper */}
-            <div className="relative w-full max-w-4xl flex items-center justify-between gap-4 px-2 md:px-12 select-none" onClick={(e) => e.stopPropagation()}>
+            <div
+              className="relative w-full max-w-5xl flex items-center justify-between gap-4 px-2 md:px-6 select-none"
+              onClick={(e) => e.stopPropagation()}
+              onTouchStart={handleTouchStart}
+              onTouchMove={handleTouchMove}
+              onTouchEnd={handleTouchEnd}
+            >
               {/* Left Arrow */}
               <button
-                onClick={handlePrev}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handlePrev();
+                }}
                 className="grid place-items-center w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 hover:scale-110 text-white backdrop-blur-md border border-white/10 hover:border-white/30 transition-all shrink-0 z-110 active:scale-95 cursor-pointer"
               >
                 <ChevronLeft className="w-6 h-6" />
               </button>
 
               {/* Main Content Carousel */}
-              <div className="relative flex-1 flex flex-col items-center justify-center overflow-hidden h-[60vh] md:h-[75vh]">
+              <div className="relative flex-1 flex flex-col items-center justify-center overflow-hidden h-[75vh] md:h-[82vh]">
                 <AnimatePresence initial={false} custom={direction} mode="wait">
                   <motion.div
                     key={activeIndex}
@@ -240,15 +314,15 @@ export function Gallery() {
                     initial="enter"
                     animate="center"
                     exit="exit"
-                    className="absolute inset-0 flex flex-col items-center justify-center"
+                    className="absolute inset-0 flex flex-col items-center justify-center p-2"
                   >
                     <img
                       src={filteredItems[activeIndex].src}
                       alt={filteredItems[activeIndex].label}
-                      className="max-w-full max-h-[85%] rounded-2xl shadow-elevated object-contain"
+                      className="max-w-full max-h-[88%] md:max-h-[92%] rounded-3xl shadow-glow object-contain border border-white/10 bg-black/40"
                     />
                     <div className="text-white mt-4 text-center">
-                      <div className="text-lg font-bold tracking-wide">{filteredItems[activeIndex].label}</div>
+                      <div className="text-sm md:text-base font-bold tracking-wide drop-shadow-md">{filteredItems[activeIndex].label}</div>
                       <div className="text-xs text-white/60 mt-1">
                         {activeIndex + 1} / {filteredItems.length}
                       </div>
@@ -259,7 +333,10 @@ export function Gallery() {
 
               {/* Right Arrow */}
               <button
-                onClick={handleNext}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleNext();
+                }}
                 className="grid place-items-center w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 hover:scale-110 text-white backdrop-blur-md border border-white/10 hover:border-white/30 transition-all shrink-0 z-110 active:scale-95 cursor-pointer"
               >
                 <ChevronRight className="w-6 h-6" />
