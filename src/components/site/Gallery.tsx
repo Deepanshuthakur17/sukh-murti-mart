@@ -2,42 +2,93 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, ChevronLeft, ChevronRight } from "lucide-react";
-import g1 from "@/assets/gallery-1.png";
-import g2 from "@/assets/gallery-2.png";
-import g3 from "@/assets/gallery-3.png";
-import g4 from "@/assets/gallery-4.png";
-import g5 from "@/assets/gallery-5.png";
-import g6 from "@/assets/gallery-6.png";
+import { X, ChevronLeft, ChevronRight, Grid, LayoutGrid, Layers, ChevronDown } from "lucide-react";
+
+const categories = [
+  { id: "all", label: "All Photos", icon: Layers },
+  { id: "store", label: "Aisles & Counter", icon: LayoutGrid },
+  { id: "groceries", label: "Daily Groceries", icon: Grid },
+  { id: "snacks", label: "Snacks & Drinks", icon: Grid },
+  { id: "household", label: "Household Needs", icon: Grid },
+  { id: "wholesale", label: "Wholesale Stock", icon: Grid },
+];
 
 const items = [
-  { src: g1.src, label: "Snacks aisle", span: "md:col-span-2 md:row-span-2" },
-  { src: g6.src, label: "Fresh produce", span: "" },
-  { src: g2.src, label: "Beverages & dairy", span: "" },
-  { src: g4.src, label: "Packaged foods", span: "" },
-  { src: g5.src, label: "Wholesale stock", span: "md:col-span-2" },
-  { src: g3.src, label: "Friendly billing counter", span: "" },
+  { src: "/9632714_store_images_1.jpg", label: "Store Front & Signage", category: "store" },
+  { src: "/9632714_store_images_14.jpg", label: "Main Entrance View", category: "store" },
+  { src: "/9632714_store_images_3.jpg", label: "Store Main Aisle", category: "store" },
+  { src: "/9632714_store_images_4.jpg", label: "Freshly Stocked Racks", category: "store" },
+  { src: "/9632714_store_images_25.jpg", label: "Spacious Walkway", category: "store" },
+  { src: "/9632714_store_images_29.jpg", label: "Organized Store Aisle", category: "store" },
+  { src: "/9632714_store_images_46.jpg", label: "Product Shelves", category: "store" },
+  { src: "/9632714_store_images_16.jpg", label: "Friendly Checkout Counter", category: "store" },
+  { src: "/9632714_store_images_44.jpg", label: "Billing & Customer Support", category: "store" },
+
+  { src: "/9632714_store_images_9.jpg", label: "Spices & Masala Section", category: "groceries" },
+  { src: "/9632714_store_images_12.jpg", label: "Premium Ghee & Oils", category: "groceries" },
+  { src: "/9632714_store_images_17.jpg", label: "Dry Fruits & Premium Packets", category: "groceries" },
+  { src: "/9632714_store_images_11.jpg", label: "Packaged Cooking Ingredients", category: "groceries" },
+  { src: "/9632714_store_images_24.jpg", label: "Jams, Sauces & Spreads", category: "groceries" },
+  { src: "/9632714_store_images_30.jpg", label: "Breakfast Cereals & Oats", category: "groceries" },
+
+  { src: "/9632714_store_images_5.jpg", label: "Snacks & Namkeen Racks", category: "snacks" },
+  { src: "/9632714_store_images_6.jpg", label: "Beverages & Chilled Drinks", category: "snacks" },
+  { src: "/9632714_store_images_10.jpg", label: "Biscuits & Cookies Shelf", category: "snacks" },
+  { src: "/9632714_store_images_18.jpg", label: "Chocolates & Confectionery", category: "snacks" },
+  { src: "/9632714_store_images_23.jpg", label: "Tea & Coffee Racks", category: "snacks" },
+  { src: "/9632714_store_images_47.jpg", label: "Cold Drinks Refrigerator", category: "snacks" },
+  { src: "/9632714_store_images_19.jpg", label: "Instant Noodles & Pasta", category: "snacks" },
+  { src: "/9632714_store_images_50.jpg", label: "Packaged Foods & Dairy", category: "snacks" },
+
+  { src: "/9632714_store_images_7.jpg", label: "Soaps & Body Wash Section", category: "household" },
+  { src: "/9632714_store_images_8.jpg", label: "Laundry Care & Detergents", category: "household" },
+  { src: "/9632714_store_images_13.jpg", label: "Cleaning Accessories", category: "household" },
+  { src: "/9632714_store_images_21.jpg", label: "Personal Hygiene & Care", category: "household" },
+
+  { src: "/9632714_store_images_15.jpg", label: "Wholesale Flour & Atta Bags", category: "wholesale" },
+  { src: "/9632714_store_images_22.jpg", label: "Bulk Stock of Grains & Dals", category: "wholesale" },
+  { src: "/9632714_store_images_45.jpg", label: "Bulk Pack Commodities", category: "wholesale" },
+  { src: "/9632714_store_images_43.jpg", label: "Store Special Bulk Stock", category: "wholesale" }
 ];
 
 export function Gallery() {
+  const [activeCategory, setActiveCategory] = useState("all");
+  const [visibleCount, setVisibleCount] = useState(8);
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
-  const [direction, setDirection] = useState(0); // -1 for left, 1 for right
+  const [direction, setDirection] = useState(0);
+
+  // Filter items based on active category
+  const filteredItems = activeCategory === "all"
+    ? items
+    : items.filter(it => it.category === activeCategory);
+
+  const visibleItems = filteredItems.slice(0, visibleCount);
+  const hasMore = filteredItems.length > visibleCount;
 
   const handleNext = (e?: React.MouseEvent) => {
     e?.stopPropagation();
     if (activeIndex === null) return;
     setDirection(1);
-    setActiveIndex((activeIndex + 1) % items.length);
+    setActiveIndex((activeIndex + 1) % filteredItems.length);
   };
 
   const handlePrev = (e?: React.MouseEvent) => {
     e?.stopPropagation();
     if (activeIndex === null) return;
     setDirection(-1);
-    setActiveIndex((activeIndex - 1 + items.length) % items.length);
+    setActiveIndex((activeIndex - 1 + filteredItems.length) % filteredItems.length);
   };
 
-  // Variants for sliding transition in lightbox
+  const loadMore = () => {
+    setVisibleCount(prev => Math.min(prev + 8, filteredItems.length));
+  };
+
+  // Reset visible count when category changes
+  const handleCategoryChange = (catId: string) => {
+    setActiveCategory(catId);
+    setVisibleCount(8);
+  };
+
   const slideVariants = {
     enter: (dir: number) => ({
       x: dir > 0 ? 100 : -100,
@@ -74,34 +125,86 @@ export function Gallery() {
           <h2 className="text-4xl md:text-5xl font-bold text-foreground">
             A glimpse of <span className="text-primary dark:text-primary underline decoration-accent/30 decoration-4 underline-offset-4 tracking-tight">SUKH MURTI MART</span>
           </h2>
+          <p className="text-muted-foreground mt-4">
+            Browse through real pictures of our neatly organized aisles, well-stocked sections, and extensive product selection.
+          </p>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 auto-rows-[180px] md:auto-rows-[220px] gap-4">
-          {items.map((it, i) => (
-            <motion.button
-              key={i}
-              onClick={() => {
-                setDirection(0);
-                setActiveIndex(i);
-              }}
-              initial={{ opacity: 0, scale: 0.96 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: false }}
-              transition={{ duration: 0.45, delay: i * 0.05 }}
-              className={`group relative overflow-hidden rounded-3xl ${it.span} shadow-soft hover:shadow-elevated cursor-pointer`}
-            >
-              <img src={it.src} alt={it.label} loading="lazy" width={1024} height={1024} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
-              <div className="absolute inset-0 bg-linear-to-t from-black/90 via-black/20 to-transparent opacity-100" />
-              <div className="absolute bottom-4 left-4 text-left text-white">
-                <div className="text-sm font-bold tracking-wide drop-shadow-lg">{it.label}</div>
-              </div>
-            </motion.button>
-          ))}
+        {/* Category Filter Tabs */}
+        <div className="flex flex-wrap justify-center gap-2 md:gap-3 mb-12">
+          {categories.map((cat) => {
+            const isActive = activeCategory === cat.id;
+            return (
+              <button
+                key={cat.id}
+                onClick={() => handleCategoryChange(cat.id)}
+                className={`relative flex items-center gap-2 px-4 py-2.5 rounded-full text-xs md:text-sm font-semibold transition-all duration-300 border cursor-pointer ${isActive
+                    ? "bg-primary text-primary-foreground border-primary shadow-glow"
+                    : "glass-light dark:glass hover:bg-muted/80 text-foreground/80 hover:text-foreground border-border/50"
+                  }`}
+              >
+                <span>{cat.label}</span>
+              </button>
+            );
+          })}
         </div>
+
+        {/* Images Grid */}
+        <motion.div
+          layout
+          className="grid grid-cols-2 md:grid-cols-4 gap-4"
+        >
+          <AnimatePresence mode="popLayout">
+            {visibleItems.map((it, i) => {
+              // Find the index of this item in the filteredItems array for lightbox navigation
+              const originalIndex = filteredItems.findIndex(f => f.src === it.src);
+              return (
+                <motion.button
+                  layout
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.9 }}
+                  transition={{ duration: 0.4 }}
+                  key={it.src}
+                  onClick={() => {
+                    setDirection(0);
+                    setActiveIndex(originalIndex);
+                  }}
+                  className="group relative overflow-hidden rounded-3xl h-[160px] md:h-[220px] shadow-soft hover:shadow-elevated cursor-pointer"
+                >
+                  <img
+                    src={it.src}
+                    alt={it.label}
+                    loading="lazy"
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                  />
+                  <div className="absolute inset-0 bg-linear-to-t from-black/90 via-black/20 to-transparent opacity-100" />
+                  <div className="absolute bottom-4 left-4 right-4 text-left text-white">
+                    <div className="text-xs md:text-sm font-bold tracking-wide drop-shadow-md truncate">{it.label}</div>
+                  </div>
+                </motion.button>
+              );
+            })}
+          </AnimatePresence>
+        </motion.div>
+
+        {/* Load More Button */}
+        {hasMore && (
+          <div className="text-center mt-12">
+            <button
+              onClick={loadMore}
+              className="inline-flex items-center gap-2 bg-gradient-brand text-primary-foreground px-6 py-3.5 rounded-full font-semibold shadow-glow hover:scale-105 active:scale-95 transition-all duration-300 cursor-pointer"
+            >
+              <span>Load More Photos</span>
+              <ChevronDown className="w-4 h-4 animate-bounce" />
+            </button>
+          </div>
+        )}
       </div>
 
+      {/* Lightbox Modal */}
       <AnimatePresence>
-        {activeIndex !== null && (
+        {activeIndex !== null && filteredItems[activeIndex] && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -140,14 +243,14 @@ export function Gallery() {
                     className="absolute inset-0 flex flex-col items-center justify-center"
                   >
                     <img
-                      src={items[activeIndex].src}
-                      alt={items[activeIndex].label}
+                      src={filteredItems[activeIndex].src}
+                      alt={filteredItems[activeIndex].label}
                       className="max-w-full max-h-[85%] rounded-2xl shadow-elevated object-contain"
                     />
                     <div className="text-white mt-4 text-center">
-                      <div className="text-lg font-bold tracking-wide">{items[activeIndex].label}</div>
+                      <div className="text-lg font-bold tracking-wide">{filteredItems[activeIndex].label}</div>
                       <div className="text-xs text-white/60 mt-1">
-                        {activeIndex + 1} / {items.length}
+                        {activeIndex + 1} / {filteredItems.length}
                       </div>
                     </div>
                   </motion.div>
@@ -168,3 +271,4 @@ export function Gallery() {
     </section>
   );
 }
+

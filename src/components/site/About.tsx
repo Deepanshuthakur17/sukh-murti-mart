@@ -1,8 +1,6 @@
 import { motion } from "framer-motion";
 import { Counter } from "./Counter";
 import { Award, HeartHandshake, ShieldCheck, Users } from "lucide-react";
-import g3 from "@/assets/gallery-3.png";
-import g6 from "@/assets/gallery-6.png";
 
 const stats = [
   { value: 10, suffix: "K+", label: "Happy Customers" },
@@ -31,10 +29,10 @@ export function About() {
             className="relative h-[480px]"
           >
             <div className="absolute top-0 left-0 w-3/4 h-3/4 rounded-3xl overflow-hidden shadow-elevated">
-              <img src={g3.src} alt="Friendly billing counter" loading="lazy" width={1024} height={1024} className="w-full h-full object-cover" />
+              <img src="/9632714_store_images_16.jpg" alt="Friendly billing counter" loading="lazy" width={1024} height={1024} className="w-full h-full object-cover" />
             </div>
             <div className="absolute bottom-0 right-0 w-2/3 h-2/3 rounded-3xl overflow-hidden shadow-elevated border-4 border-background">
-              <img src={g6.src} alt="Fresh produce" loading="lazy" width={1024} height={1024} className="w-full h-full object-cover" />
+              <img src="/9632714_store_images_3.jpg" alt="Store Aisle Display" loading="lazy" width={1024} height={1024} className="w-full h-full object-cover" />
             </div>
             <div className="absolute -bottom-6 left-6 glass-light dark:glass rounded-2xl px-5 py-4 shadow-soft border border-primary/10">
               <div className="text-2xl font-bold text-primary">100%</div>
